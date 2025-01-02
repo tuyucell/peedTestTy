@@ -1,0 +1,4 @@
+Daily Report:
+Target: 1.1.1.1, Average Latency: 10.82 ms
+Target: 8.8.8.8, Average Latency: 50.30 ms
+Target: google.com, Average Latency: 49.64 ms
