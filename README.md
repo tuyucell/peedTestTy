@@ -1,72 +1,73 @@
-Aşağıda projeniz için temel bir README.md taslağı bulunmaktadır. Bu dosya, projenizi açıklamak, kullanım talimatlarını ve geliştirme detaylarını paylaşmak için kullanılır.
-
-README.md
-
 # Speed Test Project
 
-Bu proje, belirli hedeflere düzenli olarak **ping** göndererek internet bağlantınızı test eder. Hedeflere olan gecikme sürelerini (latency) ölçer ve verileri bir veritabanında saklar. Ayrıca günlük, haftalık ve aylık raporlar oluşturur.
+Bu proje, belirli hedeflere düzenli olarak ping göndererek internet bağlantınızın hızını test eder. Hedeflere olan gecikme sürelerini (latency) ölçer ve günlük, haftalık ve aylık raporlar oluşturur. Ayrıca raporları e-posta ile görselli bir biçimde gönderir.
 
 ## Özellikler
 
 - Belirli hedeflere (ör. `8.8.8.8`, `1.1.1.1`, `google.com`) ping göndererek **latency** ölçer.
-- Sonuçları bir **SQLite** veritabanında saklar.
-- **Günlük raporlar** oluşturur ve .txt formatında kaydeder.
-- **Haftalık ve aylık raporlar** oluşturma özelliği.
-- Ortalama gecikme sürelerini görselleştirmek için **grafikler**.
-- Kolay kurulum ve Docker ile uyumlu.
+- Günlük, haftalık ve aylık raporlar oluşturur.
+- **E-posta raporları**: Günlük raporları görselli ve ekli grafik dosyalarıyla e-posta olarak gönderir.
+- Docker ile kolay dağıtım ve çalıştırma.
+
+---
 
 ## Kurulum
 
-1. Bu repository'yi klonlayın:
+### 1. Proje Dosyalarını Klonlama
+```bash
+git clone <repository-url>
+cd speedTestTy
 
-   ```bash
-   git clone git@github.com:tuyucell/peedTestTy.git
-   cd peedTestTy
+2. Gerekli Bağımlılıkları Yükleme
 
-	2.	Sanal bir Python ortamı oluşturun ve etkinleştirin:
+Sanal ortam kullanıyorsanız:
 
 python -m venv .venv
-source .venv/bin/activate  # Windows için .venv\Scripts\activate
-
-
-	3.	Gerekli bağımlılıkları yükleyin:
-
+source .venv/bin/activate  # Windows için: .venv\Scripts\activate
 pip install -r requirements.txt
 
+config.py Ayarları
 
-	4.	Uygulamayı çalıştırın:
+Proje ile birlikte bir config.py şablonu sağlanmaktadır. Bu dosyayı kendi e-posta sunucusu bilgilerinize göre doldurun.
 
-python ping_tester.py
+config.py Örneği:
 
+SMTP_CONFIG = {
+    "host": "mail.yourdomain.com",
+    "port": 465,  # TLS kullanıyorsanız 465
+    "username": "your_email@yourdomain.com",
+    "password": "your_email_password",
+    "from_email": "your_email@yourdomain.com",
+    "to_email": "recipient_email@example.com"
+}
 
+3. Docker İmajını Oluşturma ve Çalıştırma
+
+Projenizi Docker ile çalıştırmak için:
+
+Docker İmajını Oluşturma:
+
+docker build -t speedtestty .
+
+Docker Container’ı Çalıştırma:
+
+docker run -d --name speedtestty speedtestty
+
+Container otomatik olarak günlük, haftalık ve aylık raporları oluşturup e-posta gönderecektir.
 
 Kullanım
-	•	Projeyi çalıştırarak günlük ping sonuçlarını ve raporlarını oluşturabilirsiniz.
-	•	Raporlar daily_report_YYYY-MM-DD.txt formatında proje dizinine kaydedilir.
-	•	Docker kullanarak uygulamayı zamanlanmış olarak çalıştırabilirsiniz.
 
-Geliştirme
-	1.	Yeni bir özellik üzerinde çalışmak için yeni bir branch oluşturun:
+Günlük, Haftalık ve Aylık Raporlar
+	•	Günlük Rapor: Her gün gönderilir.
+	•	Haftalık Rapor: Haftanın son günü (Pazar).
+	•	Aylık Rapor: Her ayın ilk günü.
 
-git checkout -b feature/new-feature
+E-posta Testi
 
-
-	2.	Değişikliklerinizi commit edip GitHub’a gönderin:
-
-git add .
-git commit -m "Add new feature"
-git push origin feature/new-feature
-
-
-	3.	Pull Request oluşturun.
-
-Gereksinimler
-	•	Python 3.8 veya üzeri
-	•	ping komutunun çalışabileceği bir sistem
-	•	İsteğe bağlı: Docker
+SMTP ayarlarınızı doğrulamak için emailer.py içerisinde bir test fonksiyonu bulunmaktadır.
 
 Katkıda Bulunma
-	1.	Repository’yi fork’layın.
+	1.	Projeyi fork’layın.
 	2.	Yeni bir branch oluşturun (git checkout -b feature/AmazingFeature).
 	3.	Değişikliklerinizi commit edin (git commit -m 'Add some AmazingFeature').
 	4.	Branch’inize push edin (git push origin feature/AmazingFeature).
