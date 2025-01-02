@@ -1,2 +1,1 @@
-# peedTestTy
-Periodic speed test latency
+# Speed Test Project
